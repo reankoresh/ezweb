@@ -1,0 +1,70 @@
+<div class="container mx-auto w-11/12">
+    <div class="grid gap-4">
+        <div class="flex justify-center">
+            <img
+                class="h-auto max-w-full rounded-lg main-image animate__animated"
+                src="/gallery/gallery1.jpg"
+                alt=""
+            />
+        </div>
+        <div class="grid grid-cols-5 gap-4">
+            <div class="cursor-pointer">
+                <img
+                    class="h-auto max-w-full rounded-lg"
+                    src="/gallery/gallery1.jpg"
+                    alt=""
+                />
+            </div>
+            <div class="cursor-pointer">
+                <img
+                    class="h-auto max-w-full rounded-lg"
+                    src="/gallery/gallery2.jpg"
+                    alt=""
+                />
+            </div>
+            <div class="cursor-pointer">
+                <img
+                    class="h-auto max-w-full rounded-lg"
+                    src="/gallery/gallery3.jpg"
+                    alt=""
+                />
+            </div>
+            <div class="cursor-pointer">
+                <img
+                    class="h-auto max-w-full rounded-lg"
+                    src="/gallery/gallery4.jpg"
+                    alt=""
+                />
+            </div>
+            <div class="cursor-pointer">
+                <img
+                    class="h-auto max-w-full rounded-lg"
+                    src="/gallery/gallery5.jpg"
+                    alt=""
+                />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document
+            .querySelectorAll(".grid.grid-cols-5 .cursor-pointer")
+            .forEach((div) => {
+                div.addEventListener("click", function () {
+                    const mainImg = document.querySelector(".main-image");
+                    const thumbImg = this.querySelector("img");
+                    if (mainImg && thumbImg) {
+                        mainImg.classList.remove("animate__fadeIn");
+                        mainImg.setAttribute(
+                            "src",
+                            thumbImg.getAttribute("src"),
+                        );
+                        // Forzar reflow para reiniciar la animación
+                        void mainImg.offsetWidth;
+                        mainImg.classList.add("animate__fadeIn");
+                    }
+                });
+            });
+    });
+</script>
