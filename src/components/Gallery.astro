@@ -48,11 +48,34 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
+        const mainImg = document.querySelector(".main-image");
+        const thumbs = Array.from(
+            document.querySelectorAll(".grid.grid-cols-5 img"),
+        );
+        let current = 0;
+        // Cambio automático cada 4 segundos sin repetir la imagen actual
+        setInterval(() => {
+            if (!mainImg || thumbs.length === 0) return;
+            let next = (current + 1) % thumbs.length;
+            // Evitar repetir la imagen actual
+            const currentSrc = mainImg.getAttribute("src");
+            if (thumbs[next].getAttribute("src") === currentSrc) {
+                next = (next + 1) % thumbs.length;
+            }
+            mainImg.classList.remove("animate__fadeIn");
+            mainImg.setAttribute("src", thumbs[next].getAttribute("src"));
+            void (mainImg instanceof HTMLImageElement
+                ? mainImg.offsetWidth
+                : 0);
+            mainImg.classList.add("animate__fadeIn");
+            current = next;
+        }, 6000);
+
+        // Cambio manual al hacer clic
         document
             .querySelectorAll(".grid.grid-cols-5 .cursor-pointer")
-            .forEach((div) => {
+            .forEach((div, idx) => {
                 div.addEventListener("click", function () {
-                    const mainImg = document.querySelector(".main-image");
                     const thumbImg = this.querySelector("img");
                     if (mainImg && thumbImg) {
                         mainImg.classList.remove("animate__fadeIn");
@@ -60,9 +83,9 @@
                             "src",
                             thumbImg.getAttribute("src"),
                         );
-                        // Forzar reflow para reiniciar la animación
                         void mainImg.offsetWidth;
                         mainImg.classList.add("animate__fadeIn");
+                        current = idx; // Actualiza el índice para el auto cambio
                     }
                 });
             });
